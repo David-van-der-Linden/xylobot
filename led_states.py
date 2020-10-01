@@ -24,22 +24,22 @@ def LedStates:
                     self.leds[key].value(1)
         return
 
-    def off(self):
-        
+    def off(self,last_state, state):
+        print('OFF')
         return
 
 
-    def red(self):
-
+    def red(self,last_state, state):
+        print('RED')
         return
 
 
-    def orange(self):
-        
+    def orange(self,last_state, state):
+        print('ORANGE')
        return
 
 
-    def green(self):
-
+    def green(self,last_state, state):
+        print('GREEN')
         return
     
