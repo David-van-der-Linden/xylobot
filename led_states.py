@@ -1,5 +1,6 @@
 import States from states
 import Pin from machine
+import random
 
 def LedStates:
     def __init__(self):
@@ -25,21 +26,60 @@ def LedStates:
         return
 
     def off(self,last_state, state):
-        print('OFF')
-        return
+        # Entry action
+        if last_state is not state:
+            self.all_off()
+            last_state = state
+
+        # Action: None
+        # State guards: None. Must be done through button press
+        return last_state, state
 
 
     def red(self,last_state, state):
-        print('RED')
-        return
+        # Entry action
+       if last_state is not state:
+            self.all_off()
+            last_state = state
+            
+        
+        # Action: toggle. Leads to blink in same state
+        self.toggle_led('red')
 
-
-    def orange(self,last_state, state):
-        print('ORANGE')
-       return
+        # State guards (random)
+        if random.getrandbits(1):
+            state = States.ORANGE
+        return last_state, state
 
 
     def green(self,last_state, state):
-        print('GREEN')
-        return
+        # Entry action
+        if last_state is not state:
+            self.all_off()
+            last_state = state
+            
+        
+        # Action: toggle. Leads to blink in same state
+        self.toggle_led('green')
+
+        # State guards (random)
+        if random.getrandbits(1):
+            state = States.RED
+       return last_state, state
+
+
+    def orange(self,last_state, state):
+       # Entry action
+        if last_state is not state:
+            self.all_off()
+            last_state = state
+            
+         
+        # Action: toggle. Leads to blink in same state
+        self.toggle_led('orange')
+
+        # State guards (random)
+        if random.getrandbits(1):
+            state = States.GREEN
+        return last_state, state
     

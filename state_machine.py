@@ -1,7 +1,9 @@
+import br_timer 
 import States from states
 import LedStates from led_states
+from button_control import ButtonControl
 
-import br_timer 
+
 
 def Robot:
     def __init__(self, ticker_number, main_frequency):
@@ -10,7 +12,8 @@ def Robot:
         self.main_ticker= None
         self.led_states = LedStates()
         self.last_state = None
-        self.state = States.RED
+        self.state = States.OFF
+        self.button_control = ButtonControl()
         self.state_machine = {
             States.OFF: led_states.all_off,
             States.RED: led_states.red,
@@ -21,6 +24,7 @@ def Robot:
         
         return
     def run(self):
+         self.state = self.button_control.button_state_change(self.state)
          self.last_state, self.state = self.state_machine[self.state](self.last_state, self.state)
          return 
 
