@@ -6,7 +6,7 @@ class ButtonControl(object):
 
     def __init__(self):
         self.is_pressed = False
-        self.button = Pin('C13', Pin.IN)
+        self.button = Pin('B1', Pin.IN)
         self.button.irq(self.callback, Pin.IRQ_FALLING)
         return
 
