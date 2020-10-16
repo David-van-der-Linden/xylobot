@@ -1,15 +1,13 @@
 from refrencexy import RefrenceXY
 from states import States
 import br_timer
+from br_serial import *
+import pyb
 
 
 class Modecontroler(object):
 
-    def __init__(self, ticker_number, main_frequency):
-        self.ticker_number = ticker_number
-        self.main_frequency = main_frequency
-        self.main_ticker = None
-
+    def __init__(self):
         self.last_state = None
         self.state = States.STATE0
         self.state_machine = {
@@ -18,33 +16,31 @@ class Modecontroler(object):
             States.STATE2: self.state2,
             States.STATE3: self.state3
         }
-
+        # switch tings
+        self.sw = pyb.Switch()
+        self.sw.callback(self.run)
+        # ticker things
+        self.tickerState1 = br_timer.ticker(1, 5, self.callbackfunctionstate1, GC=True)  # ticker number and ticker freqecy, recomended:  1, 100
+        # left overs
+        self.refrenxycobject = None
         return
 
     def run(self): # does one iteration
         self.state_machine[self.state]()
         return
 
-    def start(self): # repeats iterations every second
-        self.main_ticker = br_timer.ticker(
-            self.ticker_number, self.main_frequency, self.run)
-        self.main_ticker.start()  # i don't get why we have to do this line...
-        return
-
-    def stop(self):
-        self.main_ticker.stop()
-        return
-
     def state0(self):
 
         # Entry action
-
 
         # Action
         print('no leds are lighting up')  # todo actually off on the leds
 
         # State guards (transitions) # todo update to include state 4
         if self.last_state == States.STATE1:
+            # turning of old part
+            self.tickerState1.stop() #if this gives you problems try: self.tickerState1.ticker.stop()
+            # moving on to next part
             self.last_state = States.STATE0
             self.state = States.STATE2
         elif self.last_state == States.STATE2:
@@ -62,17 +58,9 @@ class Modecontroler(object):
 
     def state1(self):
         # Entry action
-        def callbackfunctionstate1(self): # todo check wheather this in the right spot
-            refrenxycobject.getRefrenceXYPosition()  # gets disired xy positions
-            # todo transform disierd xy to PRC
-            # todo get the status of the motor angles
-            # todo run pid regulation
-            return
-
         print('led 1 is on')  # todo actually turn on the led
-        refrenxycobject = RefrenceXY(5,0) #initial positions are given as paramaters
-        tickerState1 = ticker(2, 100, callbackfunctionstate1(), GC=True)  # ticker number and ticker freqecy
-        tickerState1.start()
+        self.refrenxycobject = RefrenceXY(5, 0) #initial positions are given as paramaters
+        self.tickerState1.start()
 
         # Actions
         #for actions see callbackfunctoinstate1
@@ -81,8 +69,6 @@ class Modecontroler(object):
         # todo change to a press of the button
         self.last_state = States.STATE1
         self.state = States.STATE0
-        tickerState1.ticker.stop()
-
         return
 
 
@@ -120,5 +106,12 @@ class Modecontroler(object):
         # todo change to a press of the button
         self.last_state = States.STATE3
         self.state = States.STATE0
+        return
+
+    def callbackfunctionstate1(self):  # todo check wheather this in the right spot
+        print(refrenxycobject.getRefrenceXYPosition())  # gets disired xy positions
+        # todo transform disierd xy to PRC
+        # todo get the status of the motor angles
+        # todo run pid regulation
         return
 
