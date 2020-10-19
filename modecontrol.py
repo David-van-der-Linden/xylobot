@@ -9,7 +9,7 @@ class Modecontroler(object):
 
     def __init__(self):
         self.last_state = None
-        self.state = States.STATE0
+        self.state = States.STATE1
         self.state_machine = {
             States.STATE0: self.state0,
             States.STATE1: self.state1,
@@ -22,7 +22,7 @@ class Modecontroler(object):
         # ticker things
         self.tickerState1 = br_timer.ticker(1, 5, self.callbackfunctionstate1, GC=True)  # ticker number and ticker freqecy, recomended:  1, 100
         # left overs
-        self.refrenxycobject = None
+        self.refrenxycobject = RefrenceXY(5, 0) #initial positions are given as paramaters
         return
 
     def run(self): # does one iteration
@@ -59,7 +59,7 @@ class Modecontroler(object):
     def state1(self):
         # Entry action
         print('led 1 is on')  # todo actually turn on the led
-        self.refrenxycobject = RefrenceXY(5, 0) #initial positions are given as paramaters
+
         self.tickerState1.start()
 
         # Actions
@@ -109,7 +109,7 @@ class Modecontroler(object):
         return
 
     def callbackfunctionstate1(self):  # todo check wheather this in the right spot
-        print(refrenxycobject.getRefrenceXYPosition())  # gets disired xy positions
+        print(self.refrenxycobject.getRefrenceXYPosition())  # gets disired xy positions
         # todo transform disierd xy to PRC
         # todo get the status of the motor angles
         # todo run pid regulation
