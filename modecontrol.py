@@ -20,7 +20,7 @@ class Modecontroler(object):
         self.sw = pyb.Switch()
         self.sw.callback(self.run)
         # ticker things
-        self.tickerState1 = br_timer.ticker(1, 5, self.callbackfunctionstate1, GC=True)  # ticker number and ticker freqecy, recomended:  1, 100
+        self.tickerState1 = br_timer.ticker(1, 100, self.callbackfunctionstate1, GC=True)  # ticker number and ticker freqecy, recomended:  1, 100
         # left overs
         self.refrenxycobject = RefrenceXY(5, 0) #initial positions are given as paramaters
         return
