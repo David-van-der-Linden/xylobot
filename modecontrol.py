@@ -20,12 +20,12 @@ class Modecontroler(object):
         self.sw = pyb.Switch()
         self.sw.callback(self.run)
         # ticker things
-        self.tickerState1 = br_timer.ticker(1, 100, self.callbackfunctionstate1, GC=True)  # ticker number and ticker freqecy, recomended:  1, 100
+        self.tickerState1 = br_timer.ticker(1, 100, self.callbackfunctionstate1, GC=True)  # todo let the ticker callback be globel to reduce error pocibilitys # ticker number and ticker freqecy, recomended:  1, 100
         # left overs
         self.refrenxycobject = RefrenceXY(5, 0) #initial positions are given as paramaters
         return
 
-    def run(self): # does one iteration
+    def run(self):  # does one iteration
         self.state_machine[self.state]()
         return
 
@@ -61,6 +61,8 @@ class Modecontroler(object):
         print('led 1 is on')  # todo actually turn on the led
 
         self.tickerState1.start()
+
+        print("ticker has been started")
 
         # Actions
         #for actions see callbackfunctoinstate1

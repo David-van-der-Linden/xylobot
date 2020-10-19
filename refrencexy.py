@@ -53,4 +53,4 @@ class RefrenceXY(object):
 
     def getRefrenceXYPosition(self):
         self.updateInput()
-        return (self.xpos, self.ypos)
+        return(self.xpos, self.ypos)
