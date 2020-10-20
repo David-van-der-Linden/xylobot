@@ -1,5 +1,8 @@
+from emgInput import EmgInput
+
+
 class RefrenceXY(object):
-    def __init__(self, xpos, ypos):
+    def __init__(self, xpos, ypos, loopfrq, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size, filter_order):
         # initial position
         self.xpos = xpos
         self.ypos = ypos
@@ -14,10 +17,12 @@ class RefrenceXY(object):
         self.upStepsize = self.generalStepsize
         self.downStepsize = self.generalStepsize
         self.horizontalStepsize = self.generalStepsize
+        # emg
+        self.emgInput = EmgInput(loopfrq, filter_order, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size)
 
     def updateInput(self):
-        self.emgR = False  # todo call actual emg
-        self.emgL = True  # todo call actual emg
+        self.emgR = self.emgInput.getEmgRight()
+        self.emgL = self.emgInput.getEmgLeft()
         if self.emgL:
             if self.emgR:
                 self.moveDown()
