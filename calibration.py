@@ -46,9 +46,9 @@ class Calibration():
         
         
         adcR = ADC(Pin(self.calibration_pin_right))
-        new_value_left=self.rmsfL.process(abs(self.mohpL.process(adcR.read_u16())))
-        if self.calibration_result_left < new_value_left:
-            self.calibration_result_left= new_value_left
+        new_value_right=self.rmsfR.process(abs(self.mohpR.process(adcR.read_u16())))
+        if self.calibration_result_right < new_value_right:
+            self.calibration_result_right= new_value_right
         
         return 
     

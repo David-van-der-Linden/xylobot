@@ -39,21 +39,25 @@ class RefrenceXY(object):
     def moveUp(self):
         if self.xpos > self.upStepsize:
             self.xpos = self.xpos - self.upStepsize
+        print('up')
         return
 
     def moveDown(self):
         if self.xpos < self.xbound - self.downStepsize:
             self.xpos = self.xpos + self.downStepsize
+        print('down')
         return
 
     def moveLeft(self):
         if self.ypos < self.ybound - self.horizontalStepsize:
             self.ypos = self.ypos + self.horizontalStepsize
+        print('left')
         return
 
     def moveRight(self):
         if self.ypos > self.horizontalStepsize:
             self.ypos = self.ypos - self.horizontalStepsize
+        print('right')
         return
 
     def getRefrenceXYPosition(self):
