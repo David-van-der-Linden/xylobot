@@ -13,7 +13,7 @@ class RefrenceXY(object):
         self.xbound = 5
         self.ybound = 35
         # movement Stepsize
-        self.generalStepsize = 0.01  # todo make this dependent on freqency
+        self.generalStepsize = 5 / loopfrq  # cm per second / loopfrq
         self.upStepsize = self.generalStepsize
         self.downStepsize = self.generalStepsize
         self.horizontalStepsize = self.generalStepsize
@@ -23,43 +23,48 @@ class RefrenceXY(object):
     def updateInput(self):
         self.emgR = self.emgInput.getEmgRight()
         self.emgL = self.emgInput.getEmgLeft()
+        # print("left:", self.emgL, ", right:", self.emgR)
         if self.emgL:
             if self.emgR:
                 self.moveDown()
+                # print("Go Down")
             else:
                 self.moveUp()
                 self.moveLeft()
+                # print("Go Left (and up)")
         elif self.emgR:
             self.moveUp()
             self.moveRight()
+            # print("Go Right (and up)")
         else:
             self.moveUp()
+            # print("Go up")
         return
 
     def moveUp(self):
         if self.xpos > self.upStepsize:
             self.xpos = self.xpos - self.upStepsize
-        print('up')
+        # print('up')
         return
 
     def moveDown(self):
         if self.xpos < self.xbound - self.downStepsize:
             self.xpos = self.xpos + self.downStepsize
-        print('down')
+        # print('down')
         return
 
     def moveLeft(self):
         if self.ypos < self.ybound - self.horizontalStepsize:
             self.ypos = self.ypos + self.horizontalStepsize
-        print('left')
+        # print('left')
         return
 
     def moveRight(self):
         if self.ypos > self.horizontalStepsize:
             self.ypos = self.ypos - self.horizontalStepsize
-        print('right')
+        # print('right')
         return
 
     def getRefrenceXYPosition(self):
         self.updateInput()
-        return(self.xpos, self.ypos)
+        return round(self.xpos, 1), round(self.ypos, 1)

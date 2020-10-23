@@ -12,8 +12,8 @@ from calibration import Calibration
 import utime
 
 # EMG calibration
-mainFreq = 100  # Hz
-cutoff_frequency, rmsfilter_window_size, filter_order = 20, 50, 4
+mainFreq = 150  # Hz
+cutoff_frequency, rmsfilter_window_size, filter_order = 20, 100, 3
 calibration_pin_left, calibration_pin_right, static_gain = 'A0', 'A1', 1
 newemgcalibrationobject = Calibration(mainFreq, cutoff_frequency, filter_order, calibration_pin_left,calibration_pin_right,static_gain,rmsfilter_window_size)
 newemgcalibrationobject.run()
