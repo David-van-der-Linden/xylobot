@@ -11,6 +11,10 @@ from refrencexy import RefrenceXY
 from calibration import Calibration
 import utime
 
+# angle transformation imports 
+from angle_transformation import angles_motor_1
+from angle_transformation import angles_motor_2
+
 # EMG calibration
 mainFreq = 150  # Hz
 cutoff_frequency, rmsfilter_window_size, filter_order = 20, 100, 3
@@ -28,7 +32,12 @@ print(calibrationRight)
 def callbackfunctionstate1():  # ordering problem solution 1
     itsrobertsfault = new_controler.pls_give_state()
     if itsrobertsfault == 1:  # state == 1
-        print(refrenxycobject.getRefrenceXYPosition())  # gets disired xy positions
+        #print(refrenxycobject.getRefrenceXYPosition()) 
+        x_old, y_old = refrenxycobject.getRefrenceXYPosition()# gets disired xy positions
+        x_new = 10*(y_old-17.5)
+        y_new = 10*(x_old+27)
+        print(angles_motor_1(x_new,y_new), angles_motor_2(x_new,y_new))
+
     # todo transform disierd xy to PRC
     # todo get the status of the motor angles
     # todo run pid regulation
