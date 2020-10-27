@@ -1,4 +1,4 @@
-from states import States
+from statesIN import StatesIN
 from br_serial import *
 import pyb
 
@@ -6,14 +6,14 @@ import pyb
 class Modecontroler(object):
 
     def __init__(self):
-        self.last_state = States.STATE3  # for smoother sailing but: None is also a good alternative
-        self.state = States.STATE0  # initial state
+        self.last_state = StatesIN.STATE3  # for smoother sailing but: None is also a good alternative
+        self.state = StatesIN.STATE0  # initial state
         self.globalstate = 0
         self.state_machine = {
-            States.STATE0: self.state0,
-            States.STATE1: self.state1,
-            States.STATE2: self.state2,
-            States.STATE3: self.state3
+            StatesIN.STATE0: self.state0,
+            StatesIN.STATE1: self.state1,
+            StatesIN.STATE2: self.state2,
+            StatesIN.STATE3: self.state3
         }
         # switch tings
         self.sw = pyb.Switch()
@@ -32,19 +32,19 @@ class Modecontroler(object):
         self.globalstate = 0
 
         # State guards (transitions) # todo update to include state 4
-        if self.last_state == States.STATE1:
-            self.last_state = States.STATE0
-            self.state = States.STATE2
-        elif self.last_state == States.STATE2:
-            self.last_state = States.STATE0
-            self.state = States.STATE3
-        elif self.last_state == States.STATE3:
-            self.last_state = States.STATE0
-            self.state = States.STATE1
+        if self.last_state == StatesIN.STATE1:
+            self.last_state = StatesIN.STATE0
+            self.state = StatesIN.STATE2
+        elif self.last_state == StatesIN.STATE2:
+            self.last_state = StatesIN.STATE0
+            self.state = StatesIN.STATE3
+        elif self.last_state == StatesIN.STATE3:
+            self.last_state = StatesIN.STATE0
+            self.state = StatesIN.STATE1
         else:
             print('no last state found sending to state 1')
-            self.last_state = States.STATE0
-            self.state = States.STATE1
+            self.last_state = StatesIN.STATE0
+            self.state = StatesIN.STATE1
 
         return
 
@@ -57,8 +57,8 @@ class Modecontroler(object):
         # Actions
 
         # State guards (transitions)
-        self.last_state = States.STATE1
-        self.state = States.STATE0
+        self.last_state = StatesIN.STATE1
+        self.state = StatesIN.STATE0
         return
 
     def state2(self):
@@ -74,8 +74,8 @@ class Modecontroler(object):
         self.globalstate = 2
 
         # State guards (transitions)
-        self.last_state = States.STATE2
-        self.state = States.STATE0
+        self.last_state = StatesIN.STATE2
+        self.state = StatesIN.STATE0
         return
 
     def state3(self):
@@ -92,8 +92,8 @@ class Modecontroler(object):
 
         # State guards (transitions)
         # todo change to a press of the button
-        self.last_state = States.STATE3
-        self.state = States.STATE0
+        self.last_state = StatesIN.STATE3
+        self.state = StatesIN.STATE0
         return
 
     def pls_give_state(self):

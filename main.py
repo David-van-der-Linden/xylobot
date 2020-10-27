@@ -14,6 +14,12 @@ import utime
 # angle transformation imports 
 from angle_transformation import angles_motor_1, angles_motor_2
 
+from state_machine import Robot
+from timer_definitions import Timers
+
+main_frequency = 100 #hz
+
+
 # EMG calibration
 mainFreq = 100  # Hz
 cutoff_frequency, rmsfilter_window_size, filter_order = 20, 100, 3
@@ -29,33 +35,41 @@ print("calibration left:", calibrationLeft)
 print("calibration right:", calibrationRight)
 
 
+#start robot
+timer_number = Timers.RUN
+
+
+robot = Robot(timer_number, main_frequency)
+robot.start()
+
 # main loop
 def callbackfunctionstate1():  # ordering problem solution 1
-    itsrobertsfault = new_controler.pls_give_state()
+    #itsrobertsfault = new_controler.pls_give_state()
+    itsrobertsfault = 1
     if itsrobertsfault == 1:  # state == 1
         # print(refrenxycobject.getRefrenceXYPosition())
         x_old, y_old = refrenxycobject.getRefrenceXYPosition()  # gets disired xy positions
         x_new = 10 * (y_old - 17.5)
         y_new = 10 * (x_old + 25)
 
-        print("motor angels:", angles_motor_1(x_new, y_new), angles_motor_2(x_new, y_new))
+        #print("motor angels:", angles_motor_1(x_new, y_new), angles_motor_2(x_new, y_new))
 
     # todo transform disierd xy to PRC
     # todo get the status of the motor angles
     # todo run pid regulation
-    return
+    return x_new, y_new
 
 
 # ticker
-tickerState1 = br_timer.ticker(5, mainFreq, callbackfunctionstate1, GC=True)  # ordering problem solution 2
+#tickerState1 = br_timer.ticker(5, mainFreq, callbackfunctionstate1, GC=True)  # ordering problem solution 2
 
 # refrenceobject
 refrenxycobject = RefrenceXY(5, 0, mainFreq, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size,
                              filter_order)  # ordering problem solution 3
 
 # state machine
-new_controler = Modecontroler()
+#new_controler = Modecontroler()
 
 if __name__ == "__main__":
     print('Buckle up! It\'s going to be a bumpy ride!')
-    tickerState1.start()  # ordering problem solution 4
+    #tickerState1.start()  # ordering problem solution 4

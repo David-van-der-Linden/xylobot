@@ -13,7 +13,7 @@ class RefrenceXY(object):
         self.xbound = 5
         self.ybound = 35
         # movement Stepsize
-        self.generalStepsize = 5 / loopfrq  # cm per second / loopfrq
+        self.generalStepsize = 0.1 / loopfrq  # cm per second / loopfrq
         self.upStepsize = self.generalStepsize
         self.downStepsize = self.generalStepsize
         self.horizontalStepsize = self.generalStepsize
