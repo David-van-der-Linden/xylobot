@@ -27,11 +27,11 @@ def angles_motor_1(x,y):
     theta_1 = -1*theta 
    
 
-    print(theta_1)
+    return theta_1
     
    
 def angles_motor_2(x,y):
-     # physical constants
+    # physical constants
     L_1 = 120       #linkage 1 (short)
     L_2 = 240       #linkage 2 (long)
     m = 18.8        #distance between motor and the frame origin
@@ -49,7 +49,7 @@ def angles_motor_2(x,y):
     # motor angle 2
     theta_2 = 180 - theta_b
 
-    print(theta_2)
+    return theta_2
 
-angles_motor_1(100,300)
-angles_motor_2(100,300)
+#angles_motor_1(100,300)
+#angles_motor_2(100,300)
