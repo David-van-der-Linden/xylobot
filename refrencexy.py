@@ -23,6 +23,8 @@ class RefrenceXY(object):
     def updateInput(self):
         self.emgR = self.emgInput.getEmgRight()
         self.emgL = self.emgInput.getEmgLeft()
+        #self.emgR = False
+        #self.emgL = True
         # print("left:", self.emgL, ", right:", self.emgR)
         if self.emgL:
             if self.emgR:

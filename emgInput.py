@@ -19,18 +19,19 @@ class EmgInput():
                                         1)  # Filter order, sampling frequency, cutoff frequency, Static Gain
         self.rmsf1 = Rmsfilter(rmsfilter_window_size)  # Number of processed values
         self.rmsf2 = Rmsfilter(rmsfilter_window_size)  # Number of processed values
+        self.adc1 = ADC(Pin('A0'))
+        self.adc2 = ADC(Pin('A1'))
+
 
     def getEmgLeft(self):  # This function needs to be called with the loop_frequency
-        adc1 = ADC(Pin('A0'))
         # Read value of 16bit ADC between 0-65535 corresponding to 0V-3.3V
         # Read value of 16bit ADC between 0-65535 corresponding to 0V-3.3V
-        if (self.rmsf1.process(abs(self.mohp1.process(adc1.read_u16()))) / self.calibration_result_left) > 0.08:
+        if (self.rmsf1.process(abs(self.mohp1.process(self.adc1.read_u16()))) / self.calibration_result_left) > 0.08:
             return True
         return False
 
     def getEmgRight(self):  # This function needs to be called with the loop_frequency
-        adc2 = ADC(Pin('A1'))
         # Read value of 16bit ADC between 0-65535 corresponding to 0V-3.3V
-        if (self.rmsf2.process(abs(self.mohp2.process(adc2.read_u16()))) / self.calibration_result_right) > 0.08:
+        if (self.rmsf2.process(abs(self.mohp2.process(self.adc2.read_u16()))) / self.calibration_result_right) > 0.08:
             return True
         return False
