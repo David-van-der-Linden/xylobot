@@ -1,5 +1,5 @@
 from emgInput import EmgInput
-
+import utime
 
 class RefrenceXY(object):
     def __init__(self, xpos, ypos, loopfrq, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size, filter_order):
@@ -10,19 +10,23 @@ class RefrenceXY(object):
         self.emgR = False
         self.emgL = False
         # making bounds known
-        self.xbound = 5
+        self.xbound = 7
         self.ybound = 35
         # movement Stepsize
-        self.generalStepsize = 0.1 / loopfrq  # cm per second / loopfrq
+        self.generalStepsize = 3 / loopfrq  # cm per second / loopfrq
         self.upStepsize = self.generalStepsize
         self.downStepsize = self.generalStepsize
-        self.horizontalStepsize = self.generalStepsize
+        self.horizontalStepsize = self.generalStepsize*3
         # emg
         self.emgInput = EmgInput(loopfrq, filter_order, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size)
-
+    
+    def changeInput(self,left,right):
+        
+        self.emgR= right
+        self.emgL = left
     def updateInput(self):
-        self.emgR = self.emgInput.getEmgRight()
-        self.emgL = self.emgInput.getEmgLeft()
+        #self.emgR = self.emgInput.getEmgRight()
+        #self.emgL = self.emgInput.getEmgLeft()
         #self.emgR = False
         #self.emgL = True
         # print("left:", self.emgL, ", right:", self.emgR)
@@ -69,4 +73,4 @@ class RefrenceXY(object):
 
     def getRefrenceXYPosition(self):
         self.updateInput()
-        return round(self.xpos, 1), round(self.ypos, 1)
+        return round(self.xpos, 2), round(self.ypos, 2)

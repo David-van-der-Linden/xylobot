@@ -7,7 +7,7 @@ from timer_definitions import Timers
 
 class Motor(object):
 
-    def __init__(self, freq, encoder_period=8400, motor=1):
+    def __init__(self, freq, motor, encoder_period):
 
         if motor == 1:
             # Configure driver pins
@@ -18,14 +18,21 @@ class Motor(object):
             self.direction_pin = Pin(Pins.MOTOR1_DIRECTION, Pin.OUT)
 
             # Configure encoder pins
-            pin_a = Pin(Pins.MOTOR1_ENC_A, Pin.AF_PP)
-            pin_b = Pin(Pins.MOTOR1_ENC_B, Pin.AF_PP)
+            #pin_a = Pin(Pins.MOTOR1_ENC_A, Pin.AF_PP)
+            #pin_b = Pin(Pins.MOTOR1_ENC_B, Pin.AF_PP)
             self.timer_enc = Timer(
-                Timers.MOTOR1_ENC, prescaler=0, period=encoder_period)
+                Timers.MOTOR1_ENC, prescaler=0, period=0xFFFF)
             self.timer_enc.channel(
-                Timers.MOTOR1_ENC_A_CHANNEL, Timer.ENC_AB, pin=pin_a)
+                Timers.MOTOR1_ENC_A_CHANNEL, Timer.ENC_AB, pin=Pin('D0'))
             self.timer_enc.channel(
-                Timers.MOTOR1_ENC_B_CHANNEL, Timer.ENC_AB, pin=pin_b)
+                Timers.MOTOR1_ENC_B_CHANNEL, Timer.ENC_AB, pin=Pin('D1'))
+
+            # Configure the timer to count 2^16 numbers between [0, 65535]
+                #encoder_2 = Timer(4, prescaler = 0, period = 0xFFFF)
+
+# Configure the channels as encoders and attach the pins
+                #encoder_2.channel(2, Timer.ENC_AB, pin = Pin('D0'))
+                #encoder_2.channel(1, Timer.ENC_AB, pin = Pin('D1'))
 
         else:
             # Configure driver pins
@@ -36,15 +43,20 @@ class Motor(object):
             self.direction_pin = Pin(Pins.MOTOR2_DIRECTION, Pin.OUT)
 
             # Configure encoder pins
-            pin_a = Pin(Pins.MOTOR2_ENC_A, Pin.AF_PP)
-            pin_b = Pin(Pins.MOTOR2_ENC_B, Pin.AF_PP)
+            #pin_a = Pin(Pins.MOTOR2_ENC_A, Pin.AF_PP)
+            #pin_b = Pin(Pins.MOTOR2_ENC_B, Pin.AF_PP)
             self.timer_enc = Timer(
-                Timers.MOTOR2_ENC, prescaler=0, period=encoder_period)
+                Timers.MOTOR2_ENC, prescaler=0, period=0xFFFF)
             self.timer_enc.channel(
-                Timers.MOTOR2_ENC_A_CHANNEL, Timer.ENC_AB, pin=pin_a)
+                Timers.MOTOR2_ENC_A_CHANNEL, Timer.ENC_AB, pin=Pin('D12'))
             self.timer_enc.channel(
-                Timers.MOTOR2_ENC_B_CHANNEL, Timer.ENC_AB, pin=pin_b)
+                Timers.MOTOR2_ENC_B_CHANNEL, Timer.ENC_AB, pin=Pin('D11'))
 
+                #encoder_1 = Timer(3, prescaler = 0, period = 0xFFFF)
+
+                # Configure the channels as encoders and attach the pins
+                #encoder_1.channel(2, Timer.ENC_AB, pin = Pin('D12'))
+                #encoder_1.channel(1, Timer.ENC_AB, pin = Pin('D11'))
         return
 
 

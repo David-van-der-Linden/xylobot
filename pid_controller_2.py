@@ -73,7 +73,4 @@ class PID_2(object):
         
         self.past_error = error
 
-        return (self.p_gain * error 
-            )
-        # + self.i_gain * self.integrated_error
-        #     + self.d_gain * differential_error
+        return (self.p_gain * error +self.i_gain * self.integrated_error +  self.d_gain * differential_error)
