@@ -1,8 +1,10 @@
 from emgInput import EmgInput
 import utime
 
+
 class RefrenceXY(object):
-    def __init__(self, xpos, ypos, loopfrq, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size, filter_order):
+    def __init__(self, xpos, ypos, loopfrq, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size,
+                 filter_order):
         # initial position
         self.xpos = xpos
         self.ypos = ypos
@@ -14,11 +16,12 @@ class RefrenceXY(object):
         self.ybound = 35
         # movement Stepsize
         self.generalStepsize = 12 / loopfrq  # cm per second / loopfrq
-        self.upStepsize = self.generalStepsize*2
+        self.upStepsize = self.generalStepsize * 2
         self.downStepsize = self.generalStepsize
-        self.horizontalStepsize = self.generalStepsize*5
+        self.horizontalStepsize = self.generalStepsize * 5
         # emg
-        self.emgInput = EmgInput(loopfrq, filter_order, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size)
+        self.emgInput = EmgInput(loopfrq, filter_order, calibrationLeft, calibrationRight, cutoff_frequency,
+                                 rmsfilter_window_size)
 
         # automatic song playing
         self.timeGivenToGoDown = loopfrq * 0.3  # half a second
@@ -45,15 +48,16 @@ class RefrenceXY(object):
         self.currentsong = self.song_twinkel
         self.durationQorterNote = loopfrq * 0.6  # 0.6 gives you around 100 BMP
 
-    def changeInput(self,left,right):
-        
+    def changeInput(self, left, right):
+
         self.emgR = right
         self.emgL = left
+
     def updateInput(self):
-        #self.emgR = self.emgInput.getEmgRight()
-        #self.emgL = self.emgInput.getEmgLeft()
-        #self.emgR = False
-        #self.emgL = True
+        # self.emgR = self.emgInput.getEmgRight()
+        # self.emgL = self.emgInput.getEmgLeft()
+        # self.emgR = False
+        # self.emgL = True
         # print("left:", self.emgL, ", right:", self.emgR)
         if self.emgL:
             if self.emgR:
@@ -96,7 +100,7 @@ class RefrenceXY(object):
         # print('right')
         return
 
-    def setRef(self,x,y):
+    def setRef(self, x, y):
         self.xpos = x
         self.ypos = y
         return
@@ -116,10 +120,10 @@ class RefrenceXY(object):
             self.goAboveNote(self.currentsong[0][0])  # the first note
             self.noteRefrenceState = 'going to wait above note'
         elif self.noteRefrenceState == 'going to wait above note' and self.songTime >= self.timeToStartMovingToHitTheNextNote:
-            self.ypos = 320  # this will make it hit the note
+            self.ypos = 325  # this will make it hit the note
             self.noteRefrenceState = 'going to hit note'
             self.timeToStartMovingToHitTheNextNote = self.songTime + self.durationQorterNote * \
-                                                     self.currentsong[self.noteNumber + 1][1]
+                                                     self.currentsong[self.noteNumber][1]
             self.timeProbbeblyHitNoteByNow = self.songTime + self.timeGivenToGoDown
         elif self.noteRefrenceState == 'going to hit note' and self.songTime >= self.timeProbbeblyHitNoteByNow:  # note has been hit
             self.noteNumber += 1
