@@ -103,19 +103,19 @@ class RefrenceXY(object):
         self.updateInput()
         return round(self.xpos, 2), round(self.ypos, 2)
 
-    def goAboveNote(self, note):
+    def goAboveNote(self, note):  # todo use minimal jerk instead of step refrence so that the robot will break later
         self.xpos = self.note_dic.get(note) + 40  # so that it does not go out of bounds # todo make this less bodgey
-        self.ypos = 250
+        self.ypos = 300
 
-    def updateInputSong(self):
+    def updateInputSong(self, motorismovingpassingallongunnececerlylongnamesforthewin):
         if self.songIsOver:
             return
-        self.motorIsMoving = False  # todo get if the motors are moving
+        self.motorIsMoving = False  # motorismovingpassingallongunnececerlylongnamesforthewin # todo undo this
         if self.songTime == 0:
             self.goAboveNote(self.currentsong[0][0])  # the first note
             self.noteRefrenceState = 'going to wait above note'
         elif self.noteRefrenceState == 'going to wait above note' and not self.motorIsMoving and self.songTime >= self.timeToStartMovingToHitTheNextNote:
-            self.ypos = 300  # this will make it hit the note
+            self.ypos = 320  # this will make it hit the note
             self.noteRefrenceState = 'going to hit note'
             self.timeToStartMovingToHitTheNextNote = self.songTime + self.durationQorterNote * \
                                                      self.currentsong[self.noteNumber + 1][1]
@@ -130,6 +130,6 @@ class RefrenceXY(object):
         self.songTime += 1  # time the song has been playing in 100ths of a second if the loop frq is 100Hz
         return
 
-    def getRefrenceXYPositionSong(self):
-        self.updateInputSong()
+    def getRefrenceXYPositionSong(self, motorismovingpassingallongunnececerlylongnamesforthewin):
+        self.updateInputSong(motorismovingpassingallongunnececerlylongnamesforthewin)
         return round(self.xpos, 2), round(self.ypos, 2)

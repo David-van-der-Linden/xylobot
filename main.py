@@ -62,7 +62,8 @@ def callbackfunctionstate1():  # ordering problem solution 1
         motorControl.safe()
 
     elif itsrobertsfault == 2:
-        x_new, y_new = refrenxycobject.getRefrenceXYPositionSong()
+        x_new, y_new = refrenxycobject.getRefrenceXYPositionSong(motorControl.motorMoving())
+        print(x_new, y_new)
         motorControl.on(x_new, y_new)
         # print("motor angels:", angles_motor_1(x_new, y_new), angles_motor_2(x_new, y_new))
         # todo make sure frame difference in cordinate frame does not break state 1 anymore
