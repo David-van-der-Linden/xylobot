@@ -50,16 +50,13 @@ def callbackfunctionstate1():  # ordering problem solution 1
     if itsrobertsfault == 1:  # state == 1
         # print(refrenxycobject.getRefrenceXYPosition())
         x_old, y_old = refrenxycobject.getRefrenceXYPosition()  # gets disired xy positions
-        x_new = 7 * (y_old - 17.5)
-        y_new = 10 * (x_old + 25)
-        if x_old <0.1:
-            refrenxycobject.changeInput(True,True)
-        if x_old >6.7:
-            refrenxycobject.changeInput(False,False)
-        
-        #Enter On() state
-        print(x_old,y_old)
+        x_new = 10 * (y_old - 17.5)
+        y_new = 10 * (x_old + 25.5)
         motorControl.on(x_new,y_new)
+       
+        #Enter On() state
+        #print(x_old,y_old)
+        
         #print("motor angels:", angles_motor_1(x_new, y_new), angles_motor_2(x_new, y_new))
     if itsrobertsfault == 0:
         motorControl.safe()
@@ -75,7 +72,7 @@ tickerState1 = br_timer.ticker(5, mainFreq, callbackfunctionstate1, GC=True)  # 
 # refrenceobject
 refrenxycobject = RefrenceXY(7, 17.5, mainFreq, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size,
                              filter_order)  # ordering problem solution 3
-
+#7,17.5
 # state machine
 new_controler = Modecontroler()
 

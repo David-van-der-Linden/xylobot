@@ -8,15 +8,15 @@ class RefrenceXY(object):
         self.ypos = ypos
         # start out moving up
         self.emgR = False
-        self.emgL = False
+        self.emgL = True
         # making bounds known
         self.xbound = 7
         self.ybound = 35
         # movement Stepsize
-        self.generalStepsize = 3 / loopfrq  # cm per second / loopfrq
-        self.upStepsize = self.generalStepsize
+        self.generalStepsize = 12 / loopfrq  # cm per second / loopfrq
+        self.upStepsize = self.generalStepsize*2
         self.downStepsize = self.generalStepsize
-        self.horizontalStepsize = self.generalStepsize*3
+        self.horizontalStepsize = self.generalStepsize*5
         # emg
         self.emgInput = EmgInput(loopfrq, filter_order, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size)
     
@@ -69,6 +69,11 @@ class RefrenceXY(object):
         if self.ypos > self.horizontalStepsize:
             self.ypos = self.ypos - self.horizontalStepsize
         # print('right')
+        return
+
+    def setRef(self,x,y):
+        self.xpos = x
+        self.ypos = y
         return
 
     def getRefrenceXYPosition(self):

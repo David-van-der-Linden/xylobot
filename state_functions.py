@@ -27,16 +27,18 @@ class StateFunctions(object):
             (1, -1.142980502539901, 0.412801598096189), (1, 2, 1))
         self.filter_enc2 = Biquad(
             (1, -1.142980502539901, 0.412801598096189), (1, 2, 1))
-    	self.p1 = 100
-        self.i1 = 20
+    	self.p1 = 300
+        self.i1 = 5
         self.d1 = 2
-        self.p2 = 100
-        self.i2 = 20
+        self.p2 = 150 #asymmetric because more friction on right motor
+        self.i2 = 5
         self.d2 = 1
         self.pid = PID_pf(1 / motor_freq, self.p1, self.i1, self.d1)
         self.pid2 = PID_2(1 / motor_freq, self.p2, self.i2, self.d2)
         self.initial_degree1 = 90
         self.initial_degree2 = 90
+        self.duty2 =0
+        self.duty_cycle=0
         return
 
 
@@ -52,6 +54,12 @@ class StateFunctions(object):
         # None: performed by the button press
         return
 
+    def motorMoving(self):
+        print("DutyCycle:",self.duty_cycle,self.duty2)
+        if self.duty_cycle<20 and self.duty2<15:
+            return False
+        else :
+            return True
 
     def read(self):
         # Entry action
@@ -113,20 +121,20 @@ class StateFunctions(object):
         # Convert control output to a duty cycle and apply to motor
         # Here scaled such that 8400 counts offset corresponds to 100% pwm
         # when using only a p_gain. Capped at 100% duty cycle.
-        duty_cycle = abs(control_output) * 100 / (self.pid.p_gain * 8400) *10
-        duty2=abs(control2) * 100 / (self.pid2.p_gain * 8400)*10
+        self.duty_cycle = abs(control_output) * 100 / (self.pid.p_gain * 8400) *13
+        self.duty2=abs(control2) * 100 / (self.pid2.p_gain * 8400)*13
 
         #enc_value = self.unwrapper1.unwrap(self.motor1.read_encoder_count())
         #enc2 = self.unwrapper2.unwrap(self.motor2.read_encoder_count())
         #print("encoder1",enc_value)
         #print("encoder2",enc2)
 
-        if duty_cycle > 100:
-            duty_cycle = 100
-        self.motor1.pulse_width_percent(duty_cycle)
-        if duty2 > 100:
-            duty2 = 100
-        self.motor2.pulse_width_percent(duty2)
+        if self.duty_cycle > 100:
+            self.duty_cycle = 100
+        self.motor1.pulse_width_percent(self.duty_cycle)
+        if self.duty2 > 100:
+            self.duty2 = 100
+        self.motor2.pulse_width_percent(self.duty2)
         self.serial_pc.set(0, reference)
         self.serial_pc.set(1, measured)
         self.serial_pc.set(2, ref2)
