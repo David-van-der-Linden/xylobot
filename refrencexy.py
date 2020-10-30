@@ -21,6 +21,8 @@ class RefrenceXY(object):
         self.emgInput = EmgInput(loopfrq, filter_order, calibrationLeft, calibrationRight, cutoff_frequency, rmsfilter_window_size)
 
         # automatic song playing
+        self.timeGivenToGoDown = loopfrq * 0.3  # half a second
+        self.timeProbbeblyHitNoteByNow = None
         self.songIsOver = False
         self.motorIsMoving = None
         self.noteNumber = 0
@@ -107,19 +109,19 @@ class RefrenceXY(object):
         self.xpos = self.note_dic.get(note) + 40  # so that it does not go out of bounds # todo make this less bodgey
         self.ypos = 300
 
-    def updateInputSong(self, motorismovingpassingallongunnececerlylongnamesforthewin):
+    def updateInputSong(self):
         if self.songIsOver:
             return
-        self.motorIsMoving = False  # motorismovingpassingallongunnececerlylongnamesforthewin # todo undo this
         if self.songTime == 0:
             self.goAboveNote(self.currentsong[0][0])  # the first note
             self.noteRefrenceState = 'going to wait above note'
-        elif self.noteRefrenceState == 'going to wait above note' and not self.motorIsMoving and self.songTime >= self.timeToStartMovingToHitTheNextNote:
+        elif self.noteRefrenceState == 'going to wait above note' and self.songTime >= self.timeToStartMovingToHitTheNextNote:
             self.ypos = 320  # this will make it hit the note
             self.noteRefrenceState = 'going to hit note'
             self.timeToStartMovingToHitTheNextNote = self.songTime + self.durationQorterNote * \
                                                      self.currentsong[self.noteNumber + 1][1]
-        elif self.noteRefrenceState == 'going to hit note' and not self.motorIsMoving:  # note has been hit
+            self.timeProbbeblyHitNoteByNow = self.songTime + self.timeGivenToGoDown
+        elif self.noteRefrenceState == 'going to hit note' and self.songTime >= self.timeProbbeblyHitNoteByNow:  # note has been hit
             self.noteNumber += 1
             if self.noteNumber >= len(self.currentsong):
                 self.songIsOver = True
@@ -130,6 +132,6 @@ class RefrenceXY(object):
         self.songTime += 1  # time the song has been playing in 100ths of a second if the loop frq is 100Hz
         return
 
-    def getRefrenceXYPositionSong(self, motorismovingpassingallongunnececerlylongnamesforthewin):
-        self.updateInputSong(motorismovingpassingallongunnececerlylongnamesforthewin)
+    def getRefrenceXYPositionSong(self):
+        self.updateInputSong()
         return round(self.xpos, 2), round(self.ypos, 2)

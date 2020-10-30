@@ -54,13 +54,6 @@ class StateFunctions(object):
         # None: performed by the button press
         return
 
-    def motorMoving(self):
-        print("DutyCycle:",self.duty_cycle,self.duty2)
-        if self.duty_cycle<20 and self.duty2<15:
-            return False
-        else :
-            return True
-
     def read(self):
         # Entry action
         if self.state_object.is_new_state():
