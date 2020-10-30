@@ -113,14 +113,14 @@ class RefrenceXY(object):
         self.xpos = self.note_dic.get(note) + 40  # so that it does not go out of bounds # todo make this less bodgey
         self.ypos = 300
 
-    def updateInputSong(self):
-        if self.songIsOver:
+    def updateInputSong(self):  # todo prevent it from draging over unnececery notes
+        if self.songIsOver:  # todo it so that the song can replayed if the state is entered for another time
             return
         if self.songTime == 0:
             self.goAboveNote(self.currentsong[0][0])  # the first note
             self.noteRefrenceState = 'going to wait above note'
         elif self.noteRefrenceState == 'going to wait above note' and self.songTime >= self.timeToStartMovingToHitTheNextNote:
-            self.ypos = 325  # this will make it hit the note
+            self.ypos = 320  # this will make it hit the note
             self.noteRefrenceState = 'going to hit note'
             self.timeToStartMovingToHitTheNextNote = self.songTime + self.durationQorterNote * \
                                                      self.currentsong[self.noteNumber][1]
