@@ -41,7 +41,14 @@ class PID_pf(object):
         A = 1/(a**2 + b**2)**0.5
         B = L_2**2 - L_1**2 - y**2 - m**2 - x**2 + 2*m*x
         C = b/a
-        theta = math.degrees(math.asin(A*B)) - math.degrees(math.atan(C))
+        a_times_b = A*B
+        if a_times_b <=-1:
+            asin_ab = -1.5
+        elif a_times_b >= 1:
+            asin_ab = 1.5
+        else:
+            asin_ab =math.asin(A*B)
+        theta = math.degrees(asin_ab) - math.degrees(math.atan(C))
 
 
         # motor angle 1

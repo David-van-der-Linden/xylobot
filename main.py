@@ -24,12 +24,16 @@ motorControl = StateFunctions(main_frequency)
 
 # EMG calibration
 mainFreq = main_frequency  # Hz
-cutoff_frequency, rmsfilter_window_size, filter_order = 20, 100, 3
+cutoff_frequency, rmsfilter_window_size, filter_order = 20, 40, 3
 calibration_pin_left, calibration_pin_right, static_gain = 'A0', 'A1', 1
 newemgcalibrationobject = Calibration(mainFreq, cutoff_frequency, filter_order, calibration_pin_left,
                                       calibration_pin_right, static_gain, rmsfilter_window_size)
 newemgcalibrationobject.run()
-utime.sleep(1)  # Duration of calibration in seconds
+calibration_time = 10# Duration of calibration in seconds
+for i in range(0,9):
+    utime.sleep(calibration_time/10) 
+    print("Calibration..")
+ 
 newemgcalibrationobject.stop_calibration()
 calibrationLeft = newemgcalibrationobject.get_calibration_result_left()
 calibrationRight = newemgcalibrationobject.get_calibration_result_right()
@@ -50,12 +54,12 @@ def callbackfunctionstate1():  # ordering problem solution 1
     if itsrobertsfault == 1:  # state == 1
         # print(refrenxycobject.getRefrenceXYPosition())
         x_old, y_old = refrenxycobject.getRefrenceXYPosition()  # gets disired xy positions
-        x_new = 8 * (y_old - 17.5)  # 8 so that we make the math harder
-        y_new = 10 * (x_old + 25.5)
+        x_new = 8.5 * (y_old - 17.5)  # 8 so that we make the math harder
+        y_new = 10 * (x_old + 29.5)
         motorControl.on(x_new, y_new)
        
         #Enter On() state
-        #print(x_old,y_old)
+        print(x_new,y_new)
         
         #print("motor angels:", angles_motor_1(x_new, y_new), angles_motor_2(x_new, y_new))
     if itsrobertsfault == 0:

@@ -12,7 +12,7 @@ mohp = Multiorderhighpass(5, loop_frequency, 20, 1)  # Filter order, sampling fr
 rmsf = Rmsfilter(100)  # Number of processed values
 mohp2 = Multiorderhighpass(5, loop_frequency, 20, 1)  # Filter order, sampling frequency, cutoff frequency, Static Gain
 rmsf2 = Rmsfilter(100)  # Number of processed values
-calibration_result = 23000  # This Number has to be messured in the Calibration process
+calibration_result = 21000  # This Number has to be messured in the Calibration process
 result_1 = 0
 result_2 = 0
 

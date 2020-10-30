@@ -12,19 +12,19 @@ class RefrenceXY(object):
         self.emgR = False
         self.emgL = True
         # making bounds known
-        self.xbound = 7
+        self.xbound = 3
         self.ybound = 35
         # movement Stepsize
-        self.generalStepsize = 12 / loopfrq  # cm per second / loopfrq
-        self.upStepsize = self.generalStepsize * 2
-        self.downStepsize = self.generalStepsize
-        self.horizontalStepsize = self.generalStepsize * 5
+        self.generalStepsize = 5 / loopfrq  # cm per second / loopfrq
+        self.upStepsize = self.generalStepsize * 5
+        self.downStepsize = self.generalStepsize *6
+        self.horizontalStepsize = self.generalStepsize * 3
         # emg
         self.emgInput = EmgInput(loopfrq, filter_order, calibrationLeft, calibrationRight, cutoff_frequency,
                                  rmsfilter_window_size)
 
         # automatic song playing
-        self.timeGivenToGoDown = loopfrq * 0.3  # half a second
+        self.timeGivenToGoDown = loopfrq * 0.2  # half a second
         self.timeProbbeblyHitNoteByNow = None
         self.songIsOver = False
         self.motorIsMoving = None
@@ -44,8 +44,9 @@ class RefrenceXY(object):
                              ('G_1', 1), ('G_1', 1), ('F_1', 1), ('F_1', 1), ('E_1', 1), ('E_1', 1), ('D_1', 2),
                              ('C_1', 1), ('C_1', 1), ('G_1', 1), ('G_1', 1), ('A_1', 1), ('A_1', 1), ('G_1', 2),
                              ('F_1', 1), ('F_1', 1), ('E_1', 1), ('E_1', 1), ('D_1', 1), ('D_1', 1), ('C_1', 2)]
+        self.song_happyB = [('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('F_1',1), ('E_1',2), ('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('G_1',1), ('F_1',2),('C_1', 0.5), ('C_1', 0.5),('C_2', 2),('A_1',1),('F_1',1),('E_1',1),('D_1',1), ('G_1',0.5),('G_1',0.5),('A_1',1), ('F_1',1),('G_1',1),('F_1',2),('F_1',0.5),('F_1',0.5),('F_1',4),('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('F_1',1), ('E_1',2), ('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('G_1',1), ('F_1',2),('C_1', 0.5), ('C_1', 0.5),('C_2', 2),('A_1',1),('F_1',1),('E_1',1),('D_1',1), ('G_1',0.5),('G_1',0.5),('A_1',1), ('F_1',1),('G_1',1),('F_1',2),('F_1',0.5),('F_1',0.5),('F_1',0.5),('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('F_1',1), ('E_1',2), ('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('G_1',1), ('F_1',2),('C_1', 0.5), ('C_1', 0.5),('C_2', 2),('A_1',1),('F_1',1),('E_1',1),('D_1',1), ('G_1',0.5),('G_1',0.5),('A_1',1), ('F_1',1),('G_1',1),('F_1',2),('F_1',0.5),('F_1',0.5),('F_1',0.5),('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('F_1',1), ('E_1',2), ('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('G_1',1), ('F_1',2),('C_1', 0.5), ('C_1', 0.5),('C_2', 2),('A_1',1),('F_1',1),('E_1',1),('D_1',1), ('G_1',0.5),('G_1',0.5),('A_1',1), ('F_1',1),('G_1',1),('F_1',2),('F_1',0.5),('F_1',0.5),('F_1',0.5),('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('F_1',1), ('E_1',2), ('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('G_1',1), ('F_1',2),('C_1', 0.5), ('C_1', 0.5),('C_2', 2),('A_1',1),('F_1',1),('E_1',1),('D_1',1), ('G_1',0.5),('G_1',0.5),('A_1',1), ('F_1',1),('G_1',1),('F_1',2),('F_1',0.5),('F_1',0.5),('F_1',0.5),('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('F_1',1), ('E_1',2), ('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('G_1',1), ('F_1',2),('C_1', 0.5), ('C_1', 0.5),('C_2', 2),('A_1',1),('F_1',1),('E_1',1),('D_1',1), ('G_1',0.5),('G_1',0.5),('A_1',1), ('F_1',1),('G_1',1),('F_1',2),('F_1',0.5),('F_1',0.5),('F_1',0.5),('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('F_1',1), ('E_1',2), ('C_1', 0.5), ('C_1', 0.5), ('D_1',1), ('C_1', 1), ('G_1',1), ('F_1',2),('C_1', 0.5), ('C_1', 0.5),('C_2', 2),('A_1',1),('F_1',1),('E_1',1),('D_1',1), ('G_1',0.5),('G_1',0.5),('A_1',1), ('F_1',1),('G_1',1),('F_1',2),('F_1',0.5),('F_1',0.5),('F_1',0.5)]
 
-        self.currentsong = self.song_twinkel
+        self.currentsong = self.song_happyB
         self.durationQorterNote = loopfrq * 0.6  # 0.6 gives you around 100 BMP
 
     def changeInput(self, left, right):
@@ -54,8 +55,8 @@ class RefrenceXY(object):
         self.emgL = left
 
     def updateInput(self):
-        # self.emgR = self.emgInput.getEmgRight()
-        # self.emgL = self.emgInput.getEmgLeft()
+        self.emgR = self.emgInput.getEmgRight()
+        self.emgL = self.emgInput.getEmgLeft()
         # self.emgR = False
         # self.emgL = True
         # print("left:", self.emgL, ", right:", self.emgR)
