@@ -5,7 +5,7 @@ import pyb
 
 class Modecontroler(object):
 
-    def __init__(self):
+    def __init__(self, refrenceobject):
         self.last_state = StatesIN.STATE3  # for smoother sailing but: None is also a good alternative
         self.state = StatesIN.STATE0  # initial state
         self.globalstate = 0
@@ -21,6 +21,7 @@ class Modecontroler(object):
         self.led1 = pyb.LED(1)
         self.led2 = pyb.LED(2)
         self.led3 = pyb.LED(3)
+        self.refrenceobject = refrenceobject
         return
 
     def run(self):  # does one iteration
@@ -65,8 +66,9 @@ class Modecontroler(object):
         self.led3.off()
         # non led thing
         self.globalstate = 1
-        print('were calling the fuction state 1', 'and globalstate is:', self.globalstate)
-
+        # print('were calling the fuction state 1', 'and globalstate is:', self.globalstate)
+        self.refrenceobject.xpos = 7      # diffrent values might be better here
+        self.refrenceobject.ypos = 17.5   # "
         # Actions
 
         # State guards (transitions)
@@ -77,6 +79,7 @@ class Modecontroler(object):
     def state2(self):
         # Entry action
         if self.last_state != self.state:  # todo check if this needs to be here
+            # print("entered state 2")
             # print('mode turned into state 2') #not necessary since we allays switch
             self.last_state = self.state
             # todo run initialisation sequence

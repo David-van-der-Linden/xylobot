@@ -82,7 +82,7 @@ refrenxycobject = RefrenceXY(7, 17.5, mainFreq, calibrationLeft, calibrationRigh
                              filter_order)  # ordering problem solution 3
 #7,17.5
 # state machine
-new_controler = Modecontroler()
+new_controler = Modecontroler(refrenxycobject)
 
 if __name__ == "__main__":
     print('Buckle up! It\'s going to be a bumpy ride!')
