@@ -1,7 +1,7 @@
 # dummy modules
 import sys
 
-sys.path.append('../micropython_dummy_modules')  # todo test if this can be there while running on the mycrocontroler
+sys.path.append('../micropython_dummy_modules')
 # class import
 from modecontrol import Modecontroler
 # imports for testing sake #nm we use this shit now :(
@@ -70,8 +70,7 @@ def callbackfunctionstate1():  # ordering problem solution 1
         # print(x_new, y_new)
         motorControl.on(x_new, y_new)
         # print("motor angels:", angles_motor_1(x_new, y_new), angles_motor_2(x_new, y_new))
-        # todo make sure frame difference in cordinate frame does not break state 1 anymore
-    return 
+    return
 
 
 # ticker

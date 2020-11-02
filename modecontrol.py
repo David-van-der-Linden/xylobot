@@ -78,12 +78,16 @@ class Modecontroler(object):
 
     def state2(self):
         # Entry action
-        if self.last_state != self.state:  # todo check if this needs to be here
-            # print("entered state 2")
-            # print('mode turned into state 2') #not necessary since we allays switch
+        if self.last_state != self.state:
+            # making sure song plays from start again
+            # todo make code more sexy by adding reset fuction inside of the refrencexy.py class
+            self.refrenceobject.songIsOver = False
+            self.refrenceobject.songTime = 0
+            self.refrenceobject.timeToStartMovingToHitTheNextNote = 0
+            self.refrenceobject.noteNumber = 0
+            self.timeProbbeblyHitNoteByNow = None
+            # historic code
             self.last_state = self.state
-            # todo run initialisation sequence
-        # todo same as above state but there is a change to the reference
 
         # Action
         # led thing
@@ -99,12 +103,11 @@ class Modecontroler(object):
         self.state = StatesIN.STATE0
         return
 
-    def state3(self):
+    def state3(self):  # this state is currently not in use
         # Entry action
         if self.last_state != self.state:
             # print('mode turned into state 3') #not necessary since we allays switch
             self.last_state = self.state
-            # todo run initialisation sequence
 
         # Action
         # led things
@@ -114,10 +117,8 @@ class Modecontroler(object):
         self.led3.on()
         # non led things
         self.globalstate = 3
-        # todo run set of pre-programed moments
 
         # State guards (transitions)
-        # todo change to a press of the button
         self.last_state = StatesIN.STATE3
         self.state = StatesIN.STATE0
         return
